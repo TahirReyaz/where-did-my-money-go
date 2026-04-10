@@ -1,0 +1,14 @@
+package com.tahir.where_did_my_money_go.auth.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class RefreshTokenRequest {
+
+    @NotBlank
+    private String refreshToken;
+}
