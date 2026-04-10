@@ -32,8 +32,6 @@ public class AuthService {
 
         userRepository.save(user);
 
-        System.out.println("Registered user: " + user.getEmail());
-
         return generateTokens(user);
     }
 
@@ -64,7 +62,6 @@ public class AuthService {
     }
 
     private AuthResponse generateTokens(User user) {
-        System.out.println("Generating tokens for user: " + user.getEmail());
         return AuthResponse.builder()
                 .accessToken(jwtUtil.generateAccessToken(user.getId(), user.getEmail()))
                 .refreshToken(jwtUtil.generateRefreshToken(user.getId()))

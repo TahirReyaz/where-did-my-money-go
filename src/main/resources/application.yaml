@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: where-did-my-money-go
+
+  config:
+    import: optional:file:.env
+
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
+    # url: jdbc:postgresql://ep-cold-scene-an9di0q0-pooler.c-6.us-east-1.aws.neon.tech/neondb
+    # username: neondb_owner
+    # password: npg_3V7HBUaKkbOl
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+jwt:
+  # secret-key: bXktdmVyeS1zZWN1cmUtc2VjcmV0LWtleS13aGljaC1pcy1sb25nLWFuZC1jb21wbGV4LWFuZC1yYW5kb20tZm9ybS1iYXNlZC1vbg==
+  secret-key: ${JWT_SECRETKEY}
+
+server:
+  servlet:
+    context-path: /api/v1
+
+frontend.url: http://localhost:8080
