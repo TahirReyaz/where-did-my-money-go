@@ -24,7 +24,7 @@ public class GroupExpenseParticipant {
     @Column(name = "share_amount", precision = 14, scale = 2)
     private BigDecimal shareAmount;
 
-    private Boolean paid = false;
+    final private Boolean paid = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_expense_id")

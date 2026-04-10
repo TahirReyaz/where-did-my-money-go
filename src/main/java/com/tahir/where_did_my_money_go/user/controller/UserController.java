@@ -13,7 +13,7 @@ import com.tahir.where_did_my_money_go.user.service.UserService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -21,24 +21,21 @@ public class UserController {
 
     @GetMapping("/me")
     public UserResponseDTO getCurrentUser(
-            @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
         return userService.getCurrentUser(userDetails.getId());
     }
 
     @GetMapping("/{id}")
     public UserResponseDTO getUserById(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @PathVariable UUID id
-    ) {
+            @PathVariable UUID id) {
         return userService.getUserById(userDetails.getId(), id);
     }
 
     @PutMapping("/me")
     public UserResponseDTO updateCurrentUser(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody UserUpdateRequestDTO request
-    ) {
+            @Valid @RequestBody UserUpdateRequestDTO request) {
         return userService.updateCurrentUser(userDetails.getId(), request);
     }
 }

@@ -39,7 +39,7 @@ public class RecurringPayment extends BaseEntity {
 
     private LocalDate lastRunDate;
 
-    private Boolean active = true;
+    final private Boolean active = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

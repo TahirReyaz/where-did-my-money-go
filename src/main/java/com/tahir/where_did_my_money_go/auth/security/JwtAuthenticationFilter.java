@@ -25,17 +25,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain chain)
+            HttpServletResponse response,
+            FilterChain chain)
             throws ServletException, IOException {
+        System.out.println("Current request path: " + request.getServletPath());
 
-                   // ✅ Allow auth endpoints without JWT
-
-    String path = request.getServletPath();
-    if (path.startsWith("/auth")) {
-        chain.doFilter(request, response);
-        return;
-    }
+        // ✅ Allow auth endpoints without JWT
+        String path = request.getServletPath();
+        if (path.startsWith("/auth")) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         String header = request.getHeader("Authorization");
 
@@ -58,8 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         var auth = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 null,
-                userDetails.getAuthorities()
-        );
+                userDetails.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(auth);
 
