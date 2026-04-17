@@ -9,6 +9,7 @@ import com.tahir.where_did_my_money_go.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +32,10 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @JsonIgnore
     @Column(name = "password_hash")
     private String passwordHash;
@@ -48,4 +53,13 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Trip> trips;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        if (this.role == null) {
+            this.role = Role.ROLE_USER;
+        }
+    }
 }

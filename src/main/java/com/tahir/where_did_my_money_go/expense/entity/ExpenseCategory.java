@@ -9,8 +9,7 @@ import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
 import com.tahir.where_did_my_money_go.user.entity.User;
 
 @Entity
-@Table(name = "expense_categories",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "name"}))
+@Table(name = "expense_categories", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "name" }))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +21,7 @@ public class ExpenseCategory extends BaseEntity {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

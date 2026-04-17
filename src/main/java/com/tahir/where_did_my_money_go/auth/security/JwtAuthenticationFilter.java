@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.tahir.where_did_my_money_go.auth.util.JwtUtil;
+import com.tahir.where_did_my_money_go.user.entity.Role;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,13 +16,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final CustomUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -52,10 +53,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         var userId = jwtUtil.extractUserId(token);
+        Role role = jwtUtil.extractRole(token);
 
-        var userDetails = userDetailsService.loadUserById(userId);
+        CustomUserDetails userDetails = new CustomUserDetails(
+                userId,
+                null,
+                null,
+                List.of(role));
 
-        var auth = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 null,
                 userDetails.getAuthorities());

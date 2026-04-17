@@ -1,6 +1,8 @@
 package com.tahir.where_did_my_money_go.expense.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
 import com.tahir.where_did_my_money_go.expense.dto.ExpenseCreateRequest;
 import com.tahir.where_did_my_money_go.expense.dto.ExpenseResponse;
 import com.tahir.where_did_my_money_go.expense.entity.Expense;
@@ -10,5 +12,6 @@ public interface ExpenseMapper {
 
     Expense toEntity(ExpenseCreateRequest request);
 
+    @Mapping(source = "category.name", target = "categoryName")
     ExpenseResponse toResponse(Expense expense);
 }

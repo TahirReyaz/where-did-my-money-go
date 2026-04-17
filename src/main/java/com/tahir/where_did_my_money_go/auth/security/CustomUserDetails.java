@@ -1,44 +1,44 @@
 package com.tahir.where_did_my_money_go.auth.security;
 
+import com.tahir.where_did_my_money_go.user.entity.User;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.tahir.where_did_my_money_go.user.entity.User;
-
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
+@Getter
+@AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private UUID id;
+    private String email;
+    private String password;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
-    }
-
-    public UUID getId() {
-        return user.getId();
-    }
-
-    public String getEmail() {
-        return user.getEmail();
+    public static CustomUserDetails fromUser(User user) {
+        return new CustomUserDetails(
+                user.getId(),
+                user.getEmail(),
+                user.getPasswordHash(),
+                List.of(user.getRole()));
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public String getPassword() {
-        return user.getPasswordHash();
+        return authorities;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
