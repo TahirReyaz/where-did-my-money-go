@@ -13,4 +13,5 @@ public class UserResponseDTO {
 
     private UUID id;
     private String email;
+    private String name;
 }
