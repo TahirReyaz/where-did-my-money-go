@@ -32,6 +32,7 @@ public class Expense extends BaseEntity {
     @Column(nullable = false)
     private LocalDate expenseDate;
 
+    @Column(length = 255, nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

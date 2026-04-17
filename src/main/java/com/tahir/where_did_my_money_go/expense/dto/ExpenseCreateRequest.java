@@ -17,6 +17,8 @@ public class ExpenseCreateRequest {
     @NotNull
     private java.time.LocalDate expenseDate;
 
+    @NotNull
+    @Size(min = 2, max = 255)
     private String description;
 
     private java.util.UUID categoryId;
