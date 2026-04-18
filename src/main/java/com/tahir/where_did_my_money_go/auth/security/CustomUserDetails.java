@@ -17,13 +17,15 @@ public class CustomUserDetails implements UserDetails {
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
+    private boolean isVerified;
 
     public static CustomUserDetails fromUser(User user) {
         return new CustomUserDetails(
                 user.getId(),
                 user.getEmail(),
                 user.getPasswordHash(),
-                List.of(user.getRole()));
+                List.of(user.getRole()),
+                user.isVerified());
     }
 
     @Override

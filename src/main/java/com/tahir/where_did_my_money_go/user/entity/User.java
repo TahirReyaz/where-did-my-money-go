@@ -40,6 +40,9 @@ public class User extends BaseEntity {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    @Column(nullable = false)
+    private boolean isVerified;
+
     // Relationships
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

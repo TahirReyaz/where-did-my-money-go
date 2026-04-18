@@ -129,6 +129,22 @@ public class GlobalExceptionHandler {
                                 .body(buildError(HttpStatus.FORBIDDEN, "Access denied", request));
         }
 
+        @ExceptionHandler(EmailNotVerifiedException.class)
+        public ResponseEntity<ErrorResponse> handleEmailNotVerified(
+                        EmailNotVerifiedException ex,
+                        HttpServletRequest request) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                .body(buildError(HttpStatus.FORBIDDEN, "Email not verified", request));
+        }
+
+        @ExceptionHandler(InvalidTokenException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidToken(
+                        InvalidTokenException ex,
+                        HttpServletRequest request) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                .body(buildError(HttpStatus.FORBIDDEN, "Invalid token", request));
+        }
+
         @ExceptionHandler(Exception.class)
         public ResponseEntity<ErrorResponse> handleGeneric(
                         Exception ex,
