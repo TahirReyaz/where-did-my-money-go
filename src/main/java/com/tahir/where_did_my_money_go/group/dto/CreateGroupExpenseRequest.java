@@ -33,6 +33,9 @@ public class CreateGroupExpenseRequest {
     @PastOrPresent(message = "Expense date cannot be in the future")
     private LocalDate expenseDate;
 
+    @NotNull(message = "Category ID is required")
+    private UUID categoryId;
+
     @Data
     public static class ParticipantDTO {
 

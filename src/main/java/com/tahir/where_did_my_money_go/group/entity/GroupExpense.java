@@ -1,6 +1,7 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
 import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
+import com.tahir.where_did_my_money_go.expense.entity.ExpenseCategory;
 import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,10 @@ public class GroupExpense extends BaseEntity {
     private String description;
 
     private LocalDate expenseDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private ExpenseCategory category;
 
     @OneToMany(mappedBy = "groupExpense", cascade = CascadeType.ALL)
     private List<GroupExpenseParticipant> participants;
