@@ -35,7 +35,6 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
         ExpenseGroup group = ExpenseGroup.builder()
                 .name(request.getName())
                 .createdBy(user)
-                .createdAt(LocalDateTime.now())
                 .build();
 
         groupRepository.save(group);

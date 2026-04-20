@@ -1,12 +1,12 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
+import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
 import com.tahir.where_did_my_money_go.expense.entity.Expense;
 import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Settlement {
+public class Settlement extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -32,8 +32,6 @@ public class Settlement {
     private User toUser;
 
     private BigDecimal amount;
-
-    private LocalDateTime createdAt;
 
     @OneToOne
     private Expense fromExpense;

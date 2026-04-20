@@ -1,5 +1,6 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
+import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
 import com.tahir.where_did_my_money_go.expense.entity.Expense;
 import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GroupExpenseParticipant {
+public class GroupExpenseParticipant extends BaseEntity {
 
     @Id
     @GeneratedValue

@@ -1,5 +1,6 @@
 package com.tahir.where_did_my_money_go.auth.entity;
 
+import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
 import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmailVerificationToken {
+public class EmailVerificationToken extends BaseEntity {
 
     @Id
     @GeneratedValue
