@@ -40,7 +40,7 @@ public class Expense extends BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private ExpenseCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)

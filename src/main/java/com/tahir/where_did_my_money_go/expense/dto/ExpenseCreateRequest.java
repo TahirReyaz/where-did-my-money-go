@@ -1,5 +1,9 @@
 package com.tahir.where_did_my_money_go.expense.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.UUID;
+
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -12,15 +16,15 @@ public class ExpenseCreateRequest {
 
     @NotNull
     @Positive
-    private java.math.BigDecimal amount;
+    private BigDecimal amount;
 
     @NotNull
-    private java.time.LocalDate expenseDate;
+    private LocalDate expenseDate;
 
     @NotNull
     @Size(min = 2, max = 255)
     private String description;
 
-    private java.util.UUID categoryId;
-    private java.util.UUID tripId;
+    private UUID categoryId;
+    private UUID tripId;
 }

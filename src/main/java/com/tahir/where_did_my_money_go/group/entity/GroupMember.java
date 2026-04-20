@@ -1,11 +1,11 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
+import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
-import com.tahir.where_did_my_money_go.user.entity.User;
+import java.util.UUID;
 
 @Entity
 @Table(name = "group_members")
@@ -14,20 +14,17 @@ import com.tahir.where_did_my_money_go.user.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@IdClass(GroupMemberId.class)
 public class GroupMember {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @GeneratedValue
+    private UUID id;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    private ExpenseGroup group;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-
-    private String role;
 
     private LocalDateTime joinedAt;
 }

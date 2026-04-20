@@ -1,5 +1,7 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
+import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
+import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,9 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
-import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
-import com.tahir.where_did_my_money_go.user.entity.User;
 
 @Entity
 @Table(name = "group_expenses")
@@ -24,21 +23,18 @@ public class GroupExpense extends BaseEntity {
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "total_amount", precision = 14, scale = 2)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ExpenseGroup group;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User createdBy;
+
     private BigDecimal totalAmount;
 
     private String description;
 
     private LocalDate expenseDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payer_id")
-    private User payer;
-
-    @OneToMany(mappedBy = "groupExpense", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "groupExpense", cascade = CascadeType.ALL)
     private List<GroupExpenseParticipant> participants;
 }

@@ -1,12 +1,12 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
+import com.tahir.where_did_my_money_go.expense.entity.Expense;
+import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-
-import com.tahir.where_did_my_money_go.user.entity.User;
 
 @Entity
 @Table(name = "group_expense_participants")
@@ -21,16 +21,16 @@ public class GroupExpenseParticipant {
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "share_amount", precision = 14, scale = 2)
-    private BigDecimal shareAmount;
-
-    final private Boolean paid = false;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_expense_id")
     private GroupExpense groupExpense;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private User user;
+
+    private BigDecimal shareAmount;
+
+    private BigDecimal paidAmount;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Expense expense;
 }

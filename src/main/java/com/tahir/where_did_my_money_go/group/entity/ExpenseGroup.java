@@ -1,34 +1,36 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
+import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
-import com.tahir.where_did_my_money_go.user.entity.User;
-
 @Entity
-@Table(name = "groups")
+@Table(name = "expense_groups")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Group extends BaseEntity {
+public class ExpenseGroup {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by")
     private User createdBy;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<GroupMember> members;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private List<GroupExpense> expenses;
 }

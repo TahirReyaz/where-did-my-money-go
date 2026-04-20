@@ -1,10 +1,13 @@
 package com.tahir.where_did_my_money_go.common.exception;
 
 import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import tools.jackson.databind.exc.InvalidFormatException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -151,5 +154,21 @@ public class GlobalExceptionHandler {
                         HttpServletRequest request) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .body(buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request));
+        }
+
+        @ExceptionHandler(HttpMessageNotReadableException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidJson(
+                        HttpMessageNotReadableException ex,
+                        HttpServletRequest request) {
+
+                String message = "Invalid request format";
+
+                if (ex.getCause() instanceof InvalidFormatException ife) {
+                        String field = ife.getPath().get(0).getPropertyName();
+                        message = "Invalid value for field: " + field;
+                }
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(buildError(HttpStatus.BAD_REQUEST, message, request));
         }
 }

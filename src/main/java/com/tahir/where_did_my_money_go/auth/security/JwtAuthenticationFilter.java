@@ -68,7 +68,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (userDetails instanceof CustomUserDetails customUserDetails) {
             if (!customUserDetails.isVerified()) {
-                System.out.println("Email not verified for user: " + userId);
                 throw new EmailNotVerifiedException("Email not verified");
             }
         }
