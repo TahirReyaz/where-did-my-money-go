@@ -15,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -152,6 +153,7 @@ public class GlobalExceptionHandler {
         public ResponseEntity<ErrorResponse> handleGeneric(
                         Exception ex,
                         HttpServletRequest request) {
+                ex.printStackTrace();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .body(buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request));
         }
@@ -170,5 +172,14 @@ public class GlobalExceptionHandler {
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                 .body(buildError(HttpStatus.BAD_REQUEST, message, request));
+        }
+
+        @ExceptionHandler(NoSuchElementException.class)
+        public ResponseEntity<ErrorResponse> handleNoSuchElement(
+                        NoSuchElementException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(buildError(HttpStatus.BAD_REQUEST, "Required value missing", request));
         }
 }

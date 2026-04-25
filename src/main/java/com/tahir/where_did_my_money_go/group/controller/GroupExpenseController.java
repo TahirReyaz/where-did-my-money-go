@@ -2,6 +2,7 @@ package com.tahir.where_did_my_money_go.group.controller;
 
 import com.tahir.where_did_my_money_go.auth.security.CustomUserDetails;
 import com.tahir.where_did_my_money_go.group.dto.CreateGroupExpenseRequest;
+import com.tahir.where_did_my_money_go.group.dto.UpdateGroupExpenseRequest;
 import com.tahir.where_did_my_money_go.group.service.GroupExpenseService;
 
 import jakarta.validation.Valid;
@@ -21,5 +22,12 @@ public class GroupExpenseController {
             @AuthenticationPrincipal CustomUserDetails user) {
 
         groupExpenseService.createGroupExpense(request, user.getId());
+    }
+
+    @PutMapping
+    public void update(@Valid @RequestBody UpdateGroupExpenseRequest request,
+            @AuthenticationPrincipal CustomUserDetails user) {
+
+        groupExpenseService.updateGroupExpense(request, user.getId());
     }
 }

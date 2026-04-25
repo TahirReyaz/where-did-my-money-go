@@ -40,6 +40,7 @@ public class GroupExpense extends BaseEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private ExpenseCategory category;
 
-    @OneToMany(mappedBy = "groupExpense", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "groupExpense", cascade = CascadeType.ALL, orphanRemoval = true // ✅ VERY IMPORTANT
+    )
     private List<GroupExpenseParticipant> participants;
 }

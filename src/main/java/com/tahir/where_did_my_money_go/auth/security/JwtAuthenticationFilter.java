@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.tahir.where_did_my_money_go.auth.util.JwtUtil;
-import com.tahir.where_did_my_money_go.common.exception.EmailNotVerifiedException;
 import com.tahir.where_did_my_money_go.user.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
@@ -43,14 +42,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")) {
-            chain.doFilter(request, response);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("""
+                    {
+                      "status": 403,
+                      "message": "No token provided"
+                    }
+                    """);
+            response.getWriter().flush();
             return;
         }
 
         String token = header.substring(7);
 
         if (!jwtUtil.validateToken(token)) {
-            chain.doFilter(request, response);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("""
+                    {
+                      "status": 403,
+                      "message": "Invalid token"
+                    }
+                    """);
+            response.getWriter().flush();
             return;
         }
 
@@ -68,7 +85,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (userDetails instanceof CustomUserDetails customUserDetails) {
             if (!customUserDetails.isVerified()) {
-                throw new EmailNotVerifiedException("Email not verified");
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("""
+                        {
+                          "status": 403,
+                          "message": "Email not verified"
+                        }
+                        """);
+                response.getWriter().flush();
+                return;
             }
         }
 
