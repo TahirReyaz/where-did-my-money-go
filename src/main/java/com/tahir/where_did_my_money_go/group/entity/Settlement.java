@@ -1,7 +1,6 @@
 package com.tahir.where_did_my_money_go.group.entity;
 
 import com.tahir.where_did_my_money_go.common.entity.BaseEntity;
-import com.tahir.where_did_my_money_go.expense.entity.Expense;
 import com.tahir.where_did_my_money_go.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,10 +31,4 @@ public class Settlement extends BaseEntity {
     private User toUser;
 
     private BigDecimal amount;
-
-    @OneToOne
-    private Expense fromExpense;
-
-    @OneToOne
-    private Expense toExpense;
 }
