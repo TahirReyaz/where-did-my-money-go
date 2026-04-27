@@ -2,6 +2,7 @@ package com.tahir.where_did_my_money_go.group.controller;
 
 import com.tahir.where_did_my_money_go.auth.security.CustomUserDetails;
 import com.tahir.where_did_my_money_go.group.dto.CreateGroupRequest;
+import com.tahir.where_did_my_money_go.group.dto.GroupActivityResponseDTO;
 import com.tahir.where_did_my_money_go.group.dto.GroupBalanceResponseDTO;
 import com.tahir.where_did_my_money_go.group.dto.GroupDetailsResponseDTO;
 import com.tahir.where_did_my_money_go.group.dto.GroupMemberDTO;
@@ -68,5 +69,12 @@ public class ExpenseGroupController {
             @AuthenticationPrincipal CustomUserDetails user) {
 
         return groupService.getGroupBalances(groupId, user.getId());
+    }
+
+    @GetMapping("/{groupId}/activities")
+    public List<GroupActivityResponseDTO> getActivities(
+            @PathVariable UUID groupId,
+            @AuthenticationPrincipal CustomUserDetails user) {
+        return groupService.getGroupActivities(groupId, user.getId());
     }
 }
