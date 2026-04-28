@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.tahir.where_did_my_money_go.common.exception.ResourceNotFoundException;
+import com.tahir.where_did_my_money_go.common.exception.UnauthorizedException;
 import com.tahir.where_did_my_money_go.expense.dto.ExpenseCreateRequest;
 import com.tahir.where_did_my_money_go.expense.dto.ExpenseResponse;
+import com.tahir.where_did_my_money_go.expense.dto.UpdateExpenseRequestDTO;
 import com.tahir.where_did_my_money_go.expense.entity.Expense;
 import com.tahir.where_did_my_money_go.expense.entity.ExpenseCategory;
 import com.tahir.where_did_my_money_go.expense.mapper.ExpenseMapper;
@@ -13,6 +15,8 @@ import com.tahir.where_did_my_money_go.expense.repository.ExpenseCategoryReposit
 import com.tahir.where_did_my_money_go.expense.repository.ExpenseRepository;
 import com.tahir.where_did_my_money_go.user.entity.User;
 import com.tahir.where_did_my_money_go.user.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -57,4 +61,28 @@ public class ExpenseService {
                 .map(mapper::toResponse)
                 .toList();
     }
+
+    @Transactional
+    public void updateExpense(UUID expenseId, UpdateExpenseRequestDTO request, UUID userId) {
+
+        Expense expense = repo.findById(expenseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
+
+        if (!expense.getUser().getId().equals(userId)) {
+            throw new UnauthorizedException("You can only update your own expenses");
+        }
+
+        expense.setAmount(request.getAmount());
+        expense.setDescription(request.getDescription());
+        expense.setExpenseDate(request.getExpenseDate());
+
+        if (request.getCategoryId() != null) {
+            ExpenseCategory category = categoryRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+            expense.setCategory(category);
+        }
+
+        repo.save(expense);
+    }
+
 }
