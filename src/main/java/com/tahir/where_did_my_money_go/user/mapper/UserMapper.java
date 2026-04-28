@@ -10,6 +10,15 @@ public interface UserMapper {
 
     UserResponseDTO toResponse(User user);
 
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "verified", ignore = true)
+    @Mapping(target = "expenses", ignore = true)
+    @Mapping(target = "recurringPayments", ignore = true)
+    @Mapping(target = "trips", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUserFromDto(UserUpdateRequestDTO dto, @MappingTarget User user);
 }
