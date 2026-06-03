@@ -33,4 +33,11 @@ server:
   servlet:
     context-path: /api/v1
 
-frontend.url: http://localhost:8080
+app:
+  frontend-url: ${FRONTEND_URL}
+
+  resend:
+    api-key: ${RESEND_API_KEY}
+
+  email:
+    from: ${EMAIL_FROM}

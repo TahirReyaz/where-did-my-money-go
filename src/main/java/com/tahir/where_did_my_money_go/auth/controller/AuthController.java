@@ -3,6 +3,7 @@ package com.tahir.where_did_my_money_go.auth.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,16 +18,23 @@ import com.tahir.where_did_my_money_go.auth.service.EmailVerificationService;
 public class AuthController {
 
     private final AuthService authService;
-    private final EmailVerificationService verificationService;
+    private final EmailVerificationService emailVerificationService;
 
-    @PostMapping("/verify-email")
-    public void verifyEmail(@RequestParam String token) {
-        verificationService.verifyToken(token);
+    @GetMapping("/verify-email")
+    public ResponseEntity<VerifyEmailResponseDTO> verifyEmail(
+            @RequestParam String token) {
+
+        return ResponseEntity.ok(
+                emailVerificationService.verifyEmail(token));
     }
 
     @PostMapping("/resend-verification")
-    public void resendVerification(@AuthenticationPrincipal CustomUserDetails user) {
-        verificationService.resendVerification(user.getId());
+    public ResponseEntity<Void> resendVerification(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        emailVerificationService.resendVerification(userDetails);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/register")

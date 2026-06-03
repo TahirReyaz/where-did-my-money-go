@@ -29,5 +29,8 @@ public class EmailVerificationToken extends BaseEntity {
     private User user;
 
     @Column(nullable = false)
-    private LocalDateTime expiryDate;
+    private LocalDateTime expiresAt;
+
+    @Column(nullable = false)
+    private boolean used;
 }

@@ -18,6 +18,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    // private final EmailVerificationService emailVerificationService;
 
     public AuthResponse register(UserRegisterRequest request) {
 
@@ -32,6 +33,7 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
+        // emailVerificationService.createAndSendVerificationToken(user);
 
         return generateTokens(user);
     }

@@ -40,8 +40,9 @@ public class User extends BaseEntity {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    @Builder.Default
     @Column(nullable = false)
-    private boolean isVerified;
+    private boolean isVerified = true;
 
     // Relationships
 
