@@ -9,9 +9,6 @@ spring:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USER}
     password: ${DATASOURCE_PASSWORD}
-    # url: jdbc:postgresql://ep-cold-scene-an9di0q0-pooler.c-6.us-east-1.aws.neon.tech/neondb
-    # username: neondb_owner
-    # password: npg_3V7HBUaKkbOl
     driver-class-name: org.postgresql.Driver
 
   jpa:
