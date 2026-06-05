@@ -8,6 +8,13 @@ import com.tahir.where_did_my_money_go.auth.dto.AuthResponse;
 import com.tahir.where_did_my_money_go.auth.dto.UserLoginRequest;
 import com.tahir.where_did_my_money_go.auth.dto.UserRegisterRequest;
 import com.tahir.where_did_my_money_go.auth.util.JwtUtil;
+import com.tahir.where_did_my_money_go.expense.entity.ExpenseCategory;
+import com.tahir.where_did_my_money_go.expense.repository.ExpenseCategoryRepository;
+import com.tahir.where_did_my_money_go.preferences.entity.UserPreference;
+import com.tahir.where_did_my_money_go.preferences.enums.AnalyticsPeriod;
+import com.tahir.where_did_my_money_go.preferences.enums.Theme;
+import com.tahir.where_did_my_money_go.preferences.enums.WeekStartsOn;
+import com.tahir.where_did_my_money_go.preferences.repository.UserPreferenceRepository;
 import com.tahir.where_did_my_money_go.user.entity.User;
 import com.tahir.where_did_my_money_go.user.repository.UserRepository;
 
@@ -18,6 +25,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final UserPreferenceRepository userPreferenceRepository;
+    private final ExpenseCategoryRepository expenseCategoryRepository;
     // private final EmailVerificationService emailVerificationService;
 
     public AuthResponse register(UserRegisterRequest request) {
@@ -34,6 +43,27 @@ public class AuthService {
 
         userRepository.save(user);
         // emailVerificationService.createAndSendVerificationToken(user);
+
+        ExpenseCategory othersCategory = expenseCategoryRepository
+                .findByNameIgnoreCase("Others")
+                .orElse(null);
+
+        UserPreference preference = UserPreference.builder()
+                .user(user)
+                .theme(Theme.LIGHT)
+                .currency("INR")
+                .weekStartsOn(WeekStartsOn.MONDAY)
+                .defaultExpenseCategory(othersCategory)
+                .defaultAnalyticsPeriod(AnalyticsPeriod.MONTH)
+                .includeGroupExpensesInAnalytics(true)
+                .expenseReminderEnabled(false)
+                .expenseReminderTime(null)
+                .emailNotifications(true)
+                .groupNotifications(true)
+                .hideAmounts(false)
+                .build();
+
+        userPreferenceRepository.save(preference);
 
         return generateTokens(user);
     }
