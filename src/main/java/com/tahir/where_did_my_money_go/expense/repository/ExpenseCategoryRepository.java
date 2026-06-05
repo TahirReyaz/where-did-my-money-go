@@ -15,4 +15,8 @@ public interface ExpenseCategoryRepository extends JpaRepository<ExpenseCategory
     boolean existsByUserIdAndName(UUID userId, String name);
 
     Optional<ExpenseCategory> findByName(String name);
+
+    Optional<ExpenseCategory> findByNameIgnoreCase(String name);
+
+    boolean existsByNameIgnoreCase(String name);
 }

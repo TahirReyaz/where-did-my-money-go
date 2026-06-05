@@ -52,10 +52,8 @@ public class GroupExpenseServiceImpl implements GroupExpenseService {
                                         .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
                 } else {
                         category = categoryRepository.findByName("others")
-                                        .orElseGet(() -> categoryRepository.save(
-                                                        ExpenseCategory.builder()
-                                                                        .name("others")
-                                                                        .build()));
+                                        .orElseThrow(() -> new ResourceNotFoundException(
+                                                        "Default category 'Others' not found"));
                 }
 
                 GroupExpense groupExpense = GroupExpense.builder()
